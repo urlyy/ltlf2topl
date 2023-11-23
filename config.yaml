@@ -1,0 +1,4 @@
+infer:
+  start: begin
+  error: terminate
+  trans: trans

@@ -1,6 +1,7 @@
 from ltlf2dfa.ltlf2dfa import get_value,ter2symb,simplify_guard
 from sympy import symbols
 import ltlf2dfa
+from ltlf2dfa.ltlf2dfa import parse_mona
 
 
 # 替换原先的parse过程，改为自己自定义的
@@ -18,6 +19,10 @@ def __parse_mona(mona_output):
                 x.strip().lower() for x in free_variables.split() if len(x.strip()) > 0
             )
         )
+    accepting_states = get_value(mona_output, r".*Accepting states:[\s]*(.*?)\n.*", str)
+    termiante = [
+        str(x.strip()) for x in accepting_states.split() if len(x.strip()) > 0
+    ]
     dot_trans = dict()  # maps each couple (src, dst) to a list of guards
     for line in mona_output.splitlines():
         if line.startswith("State "):
@@ -44,8 +49,9 @@ def __parse_mona(mona_output):
         # <class 'sympy.logic.boolalg.BooleanTrue'>
         # print(type(simplified_guard))
         dot_trans[c] = str(simplified_guard).lower()
+        # dot_trans[c] = simplified_guard
     # return dot
-    return dot_trans
+    return {"trans":dot_trans,"terminate":termiante,"begin":1,}
 
 
 def change():

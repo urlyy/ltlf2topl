@@ -1,0 +1,10 @@
+property:
+  origin: G(res>0&res1>0)
+  infer:
+    fomula: G(a&b)
+    map:
+      a: res>0
+      b: res1>0
+    variables:
+      - res
+      - res1
