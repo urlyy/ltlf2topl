@@ -11,25 +11,51 @@ class Edge:
         self.val = val
     def __str__(self):
         return "{"+f"from:{self.fro}, to:{self.to}, val:{self.val}"+"}"
-        
-def dfa2topl(graph:List[Edge],trans_param_num:int,condition_map:dict=None)->str:
-    with open('property.yaml', 'r') as file:
-        # 使用 PyYAML 加载 YAML 文件内容
-        data = yaml.safe_load(file)
-        infer = data['infer']
-    # TODO
-    # 然后改大写
-    trans_func = f"{infer['trans']}({', '.join(['P'+str(i) for i in range(trans_param_num)])}, IgnoreRet)"
+
+def get_params(params:str,all_params:list):
+    res = []
+    for p in all_params:
+        if params.find(p) !=-1:
+           res.append(p)
+    return res 
+
+def generate_trans_name(base_trans,params:List[Tuple])->str:
+    return base_trans +"_"+ '_'.join(params)
+def is_subset(l1:list,l2:list):
+    flag = True
+    for i in l1:
+        if i not in l2:
+            flag = False
+            break
+    return flag
+
+def replace_upper(s:str,params:List[str]):
+    for p in params:
+        while s.find(p) != -1:
+            s = s.replace(p,p[0].upper()+p[1:])
+    return s
+
+def dfa2topl(graph:List[Edge],trans_functions: List[List],property:dict,infer_config:dict)->str:
+    # 类型没用了，去掉
+    trans_funcs = [[param[1] for param in func] for func in trans_functions]
+    relavant_variables = property['infer']['variables']
     topl = "property Main"
     for edge in graph:
         if edge.fro == 'start':
-            topl += f"\n\tstart -> q{edge.to}: {infer['start']}(IgnoreRet)"
+            topl += f"\n\tstart -> q{edge.to}: {infer_config['start']}(IgnoreRet)"
         elif edge.to == 'error':
-            topl += f"\n\tq{edge.fro} -> error: {infer['error']}(IgnoreRet)"
+            topl += f"\n\tq{edge.fro} -> error: {infer_config['error']}(IgnoreRet)"
         else:
-            topl += f'\n\tq{edge.fro} -> q{edge.to}: {trans_func}'
-            if edge.val != 'true':
-                topl += f" when {edge.val}"
+            # 然后改大写
+            # 校验是否可以包含
+            need_params = get_params(edge.val,relavant_variables)
+            for func in trans_funcs:
+                if is_subset(need_params,func):
+                    trans_suffix = f"({', '.join(func)}, IgnoreRet)"
+                    if edge.val != 'true':
+                        trans_suffix += f" when {edge.val}"
+                    trans_func = generate_trans_name( infer_config['trans'],func) +  replace_upper(trans_suffix,func)
+                    topl += f'\n\tq{edge.fro} -> q{edge.to}: {trans_func}'
     return topl
 
 def simplify(f:str)->str:
@@ -88,4 +114,3 @@ def formula2dfa(property_path='property.yaml')->list:
     dfa = formula.to_dfa()
     graph = handle_dfa(dfa,property["infer"]["map"])
     return graph
-

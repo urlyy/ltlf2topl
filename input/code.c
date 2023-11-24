@@ -6,7 +6,10 @@ int fun(int a,int b){
     int res = 0 ,res1=0;
     int tmp;
     if(res == 0){
-      res = 1;
+      res ++ ;
+      if(res == 1){
+        res = 1;
+      }
     }
     int lyy;
     res += 1 + 2;

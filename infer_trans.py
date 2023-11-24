@@ -7,23 +7,15 @@ from fomula2dfa import formula2dfa
 
 
 class Transformer:
-    def load_config(self,config_path="config.yaml",property_path="property.yaml"):
-        with open(config_path, 'r') as file:
-            # 使用 PyYAML 加载 YAML 文件内容
-            infer = yaml.safe_load(file)['infer']
-            self.start_func = infer['start']
-            self.trans_func = infer['trans']
-            self.error_func = infer['error']
-        with open(property_path, 'r') as file:
-            # 使用 PyYAML 加载 YAML 文件内容
-            property = yaml.safe_load(file)['property']
-            self.relavant_variables = property['infer']['variables']
-        
             
-    def __init__(self,code:str):
+            
+    def __init__(self,code:str,property:dict,infer_config:dict):
         self._parser = MyParser()
         self._parser.set_code(code)
-        self.load_config()
+        self.start_func = infer_config['start']
+        self.trans_func = infer_config['trans']
+        self.error_func = infer_config['error']
+        self.relavant_variables = property['infer']['variables']
         # [[(int,a),(float,b)],[(float,b)]]
         self.trans_functions:List[List[Tuple[str,str]]] = list()
         self.param2type = dict()
@@ -93,9 +85,9 @@ class Transformer:
         return body
         
     
-    def insert_infer_begin_terminate(self,name):
+    def insert_begin(self,name):
         body = self._find_function_body_by_name(name)
-        new_code = "{\n\t"+self.start_func+"();"+self.code(body)[1:-1]+"\t"+self.error_func+"();\n}"
+        new_code = "{\n\t"+self.start_func+"();"+self.code(body)[1:-1]+"\n}"
         self.update(body,new_code)
         
     def output(self,path):
@@ -135,19 +127,18 @@ class Transformer:
         self.update(self.root,new_code)
     
     # TODO
-    def _trans_if(if_node:Node):
-        pass
-        
-    def insert_trans(self,name):
-        self.param2type = dict()
-        self.trans_functions = list()
-        body = self._find_function_body_by_name(name)
+    def _insert_trans_terminate(self,body_node:Node):
         tmp_code = ""
         # TODO 处理if
-        for child in body.named_children:
+        for child in body_node.named_children:
             if child.type != NodeName.IF_STATEMENT.value:
-                tmp_code += f"\t{self.code(child)}\n"
-                if child.type in [NodeName.RETURN_STATEMENT.value,NodeName.COMMENT.value]:
+                c = self.code(child)
+                if c.find(";") == -1:
+                    c += ";"
+                if child.type == NodeName.RETURN_STATEMENT.value:
+                    tmp_code += f"\tterminate();\n"
+                tmp_code += f"\t{c}\n"
+                if child.type == NodeName.COMMENT.value:
                     continue
                 if child.type == NodeName.DECLARATION.value:
                     ds  = child.children_by_field_name('declarator')
@@ -180,16 +171,21 @@ class Transformer:
                         self.trans_functions.append(params) 
                     tmp_code += f"\t{self.generate_trans_call(params)}\n"
             else:
-                # tmp_code += 
-                pass
-        new_code = "{\n" + tmp_code +  "}"
+                tmp_code += "\tif"+self.code(child.child_by_field_name("condition"))
+                tmp_code += self._insert_trans_terminate(child.child_by_field_name('consequence'))
+        return "{\n" + tmp_code +"\t}\n"
+    def insert_trans_terminate(self,name):
+        self.param2type = dict()
+        self.trans_functions = list()
+        body = self._find_function_body_by_name(name)
+        new_code = self._insert_trans_terminate(body)
         self.update(body,new_code)
         
     def trans(self,func_name="main"):
-        self.insert_trans(func_name)
-        func_name.insert_infer_declarations()
-        func_name.insert_infer_begin_terminate(func_name)
-        func_name.output("output/code.c")
+        self.insert_trans_terminate(func_name)
+        self.insert_infer_declarations()
+        self.insert_begin(func_name)
+        self.output("output/code.c")
         
     
         

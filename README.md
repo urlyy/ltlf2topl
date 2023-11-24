@@ -12,3 +12,7 @@ pip install pyyaml
 ```
 
 > <a href="https://blog.csdn.net/sluck_0430/article/details/134194493?ops_request_misc=&request_id=&biz_id=102&utm_term=treesitter%E6%95%99%E7%A8%8B&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-0-134194493.142^v96^pc_search_result_base9&spm=1018.2226.3001.4187">tree-sitter 的初次使用教程</a>
+
+# Attention
+
+暂时不支持带循环的代码(默认传入的代码是经过 cpachecker 处理过的)
