@@ -1,0 +1,11 @@
+property:
+  infer:
+    fomula: G(p_1&p_2)&F(p_0)&F(p_2)
+    map:
+      p_0: res>10
+      p_1: res>0
+      p_2: res1>0
+    variable:
+    - res1
+    - res
+  origin: G(res>0&res1>0)&F(res>10)&F(res1>0)

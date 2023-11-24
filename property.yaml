@@ -1,5 +1,5 @@
 property:
-  origin: G(res>0&res1>0)
+  origin: G(res>0&res1>0)&F(res>10)
   infer:
     fomula: G(a&b)
     map:
