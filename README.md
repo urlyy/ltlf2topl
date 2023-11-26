@@ -1,5 +1,9 @@
 # ltlf2topl
 
+# INTRODUCION
+
+本项目专门为了实现 cpachecker 与 infer 的联动。
+
 # INSTALL
 
 开发 OS 为 Ubuntu 22.04
