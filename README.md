@@ -15,4 +15,4 @@ pip install pyyaml
 
 # Attention
 
-暂时不支持带循环的代码(默认传入的代码是经过 cpachecker 处理过的)
+代码能跑，但结构混乱，待整理......

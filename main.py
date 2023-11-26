@@ -1,15 +1,24 @@
+import os
 import yaml
-from fomula2dfa import dfa2topl
-from infer_trans import Transformer
-from property2yml import prehandle
+from ltlf2topl.fomula2dfa import dfa2topl
+from ltlf2topl.infer_trans import Transformer
+from ltlf2topl.property2yml import prehandle
+import subprocess
+import argparse
 
-if __name__ == '__main__':
-    code_path = "input/new_code.c"
-    property_path = "property/p.yaml"
+def main(code_path,property_path):
+    file_name = os.path.basename(code_path).split(".")[0]
     config_path = "config.yaml"
-    output_property_path = "output/property/test.yaml"
-    output_code_path ="output/code/code.c"
-    output_topl_path ="output/topl/test.topl"
+    cpachecker_output_path = "output"
+    output_property_path = f"{cpachecker_output_path}/property/{file_name}.yaml"
+    output_code_path =f"{cpachecker_output_path}/code/{file_name}.c"
+    output_topl_path =f"{cpachecker_output_path}/topl/{file_name}.topl"
+    if not os.path.exists(os.path.dirname(output_property_path)):
+        os.makedirs(os.path.dirname(output_property_path))
+    if not os.path.exists(os.path.dirname(output_code_path)):  
+        os.makedirs(os.path.dirname(output_code_path))
+    if not os.path.exists(os.path.dirname(output_topl_path)):  
+        os.makedirs(os.path.dirname(output_topl_path))
     with open(code_path, 'r') as f:
         code = f.read()
     with open(config_path, 'r') as f:
@@ -27,3 +36,20 @@ if __name__ == '__main__':
     topl = dfa2topl(t.dfa,t.trans_functions,property,infer_config)
     with open(output_topl_path,"w") as f:
         f.write(topl)
+    subprocess.run(f"infer --topl --topl-properties  {output_topl_path} -- gcc -c {output_code_path}".split())
+
+
+if __name__ == '__main__':
+    # 1. 定义命令行解析器对象
+    parser = argparse.ArgumentParser(description='Demo of argparse')
+    # 2. 添加命令行参数
+    parser.add_argument('-code', type=str)
+    parser.add_argument('-property', type=str)
+    # 3. 从命令行中结构化解析参数
+    args = parser.parse_args()
+    code_path = args.code
+    property_path = args.property
+    # code_path = "input/new_code.c"
+    # property_path = "property/p.yaml"
+    print(code_path,property_path)
+    main(code_path,property_path)

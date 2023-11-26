@@ -1,7 +1,7 @@
 # https://tree-sitter.github.io/tree-sitter/playground
 # query教学 https://blog.csdn.net/qq_38808667/article/details/128172301
 from typing import Any, Callable, List, Tuple
-from my_enum import NodeName
+from ltlf2topl.my_enum import NodeName
 from tree_sitter import Parser,Language,Node,Tree
 
 class MyParser:

@@ -1,2 +1,0 @@
-main::y	4
-main::x	4

@@ -1,7 +1,7 @@
 import re
 from typing import List, Tuple
 from ltlf2dfa.parser.ltlf import LTLfParser
-from my_implemention import change
+from ltlf2topl.my_implemention import change
 import yaml
 
 class Edge:
@@ -36,7 +36,6 @@ def replace_upper(s:str,params:List[str]):
     return s
 
 def dfa2topl(graph:List[Edge],trans_functions: List[List],property:dict,infer_config:dict)->str:
-    # 类型没用了，去掉
     trans_funcs = [[param[1] for param in func] for func in trans_functions]
     relavant_variables = property['infer']['variables']
     prefix_blank = " "*2
@@ -72,7 +71,7 @@ def simplify(f:str)->str:
             return f.replace("<",">=")
         if f.find(">") != -1:
             return f.replace(">","<=")
-        if f.find("=") != -1:
+        if f.find("=") != -1 and f.find("==") == -1:
             return f.replace("=","!=")
     return f
         

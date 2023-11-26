@@ -1,8 +1,0 @@
-property:
-  infer:
-    fomula: G(p_0_p)
-    map:
-      p_0_p: x>0
-    variables:
-    - x
-  origin: G(x>0)

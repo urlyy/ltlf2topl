@@ -1,1 +1,1 @@
-[{"bug_type":"DEAD_STORE","qualifier":"The value written to &y (type int) is never used.","severity":"ERROR","line":9,"column":2,"procedure":"main","procedure_start_line":4,"file":"output/code/code.c","bug_trace":[{"level":0,"filename":"output/code/code.c","line_number":9,"column_number":2,"description":"Write of unused value"}],"key":"code.c|main|DEAD_STORE","hash":"6b97786e473c0b4b66623d270c89dc97","bug_type_hum":"Dead Store"}]
+[]

@@ -1,2 +1,0 @@
-property:
-  origin: G(res>0&res1>0)&F(res>10)&F(res1>0)

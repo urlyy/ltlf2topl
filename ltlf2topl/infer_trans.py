@@ -1,9 +1,9 @@
 from typing import List, Set, Tuple
 from tree_sitter import Node
 import yaml
-from code_parser import MyParser
-from my_enum import NodeName
-from fomula2dfa import formula2dfa
+from ltlf2topl.code_parser import MyParser
+from ltlf2topl.my_enum import NodeName
+from ltlf2topl.fomula2dfa import formula2dfa
 
 
 class Transformer:
