@@ -4,28 +4,27 @@ IntBool
 
 IntEq
 
-[y]
+[]
 
 IntAdd
 
-[main::__CPAchecker_TMP_0, x]
+[main::y, main::x]
 
 IntOverflow
 
-[main::__CPAchecker_TMP_0, x]
+[main::y, main::x]
 
 ALL
 
-[main::__CPAchecker_TMP_0, x, y]
+[main::y, main::x]
 
 DEPENDENCIES
 
-[[main::__CPAchecker_TMP_0, x] --> [0, 1],
-[y] --> [0, 1]]
+[[main::x, main::y] --> [0]]
 
 RELEVANT VARS
 
-[x]
+[main::x, main::y]
 
 RELEVANT FIELDS
 

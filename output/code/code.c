@@ -1,22 +1,17 @@
 void begin(){}
 void terminate(){}
-void trans_y_x(int y,int x){}
-extern int __VERIFIER_nondet_int();
-
-void main()
-{
+void transx(int x){}
+void main(){
 	begin();
 	int x,y;
 	x = __VERIFIER_nondet_int();
-	trans_y_x(y,x);
-	y = 1;
-	trans_y_x(y,x);
+	transx(x);
+	y = __VERIFIER_nondet_int();
+	transx(x);
 	// START HAVOCSTRATEGY;
 	if(x > (0)){
-	y = __VERIFIER_nondet_int();
-	trans_y_x(y,x);
 	x = __VERIFIER_nondet_int();
-	trans_y_x(y,x);
+	transx(x);
 	}
 	if(x > (0)){
 	abort();

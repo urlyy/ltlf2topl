@@ -19,6 +19,7 @@ class Transformer:
         # [[(int,a),(float,b)],[(float,b)]]
         self.trans_functions:List[List[Tuple[str,str]]] = list()
         self.param2type = dict()
+        self.init_variables = set()
         self.dfa = formula2dfa(property)
         # 处理一下dfa，获得各trans函数的params
         self.dfa_trans_params:List[List] = []
@@ -95,16 +96,15 @@ class Transformer:
             f.write(self.code(self.root))
     
     def generate_trans_name(self,params:List[Tuple])->str:
-        return self.trans_func +"_"+ '_'.join([f'{name}' for typ,name in params])
+        return self.trans_func + ''.join([f'{name}' for typ,name in params])
     
     
     def true_params(self)->list:
-        init_done_vars = self.param2type.keys()
         for p in self.dfa_trans_params:
             flag = True
             for element in p:
                 # 有变量未初始化
-                if element not in init_done_vars:
+                if element not in self.init_variables:
                     flag = False
                     break
             if flag:
@@ -126,10 +126,8 @@ class Transformer:
         new_code += self.code(self.root)
         self.update(self.root,new_code)
     
-    # TODO
     def _insert_trans_terminate(self,body_node:Node):
         tmp_code = ""
-        # TODO 处理if
         for child in body_node.named_children:
             if child.type != NodeName.IF_STATEMENT.value:
                 c = self.code(child)
@@ -151,6 +149,8 @@ class Transformer:
                             variable = self.code(d.child_by_field_name('declarator'))
                             self.param2type[variable] = type
                             if variable in self.relavant_variables:
+                                # 额外的set记录已初始化的变量
+                                self.init_variables.add(variable)
                                 params = self.true_params()
                                 # 只能存tuple
                                 if params not in self.trans_functions:
@@ -161,11 +161,13 @@ class Transformer:
                             variable = self.code(d)
                             self.param2type[variable] = type
                 elif child.type == NodeName.EXPRESSION_STATEMENT.value:
+                    # 额外的set记录已初始化的变量
                     exp = child.named_children[0]
                     if exp.type == NodeName.ASSIGNMENT_EXPRESSION.value:
                         variable = self.code(exp.child_by_field_name('left'))
                     elif exp.type == NodeName.UPDATE_EXPRESSION.value:
                         variable = self.code(exp.child_by_field_name('argument'))
+                    self.init_variables.add(variable)
                     params = self.true_params()
                     if params not in self.trans_functions:
                         self.trans_functions.append(params) 

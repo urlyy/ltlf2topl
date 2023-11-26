@@ -24,11 +24,11 @@ html{position:relative;overflow:hidden}body,html{height:100%}body{padding-top:50
 var cfaJson = {
 "functionNames":["main"],
 "functionCallEdges":{},
-"combinedNodes":{"2":[3],"6":[8,9],"14":[15,16,17]},
-"combinedNodesLabels":{"2":"2 x = __VERIFIER_nondet_int();\n3 y = 1;","6":"6 int __CPAchecker_TMP_0 = x;\n8 x = x - 1;\n9 __CPAchecker_TMP_0;","14":"14 int __VERIFIER_nondet_int();\n15 int x = 0;\n16 int y = 0;\n17 void main();"},
-"mergedNodes":[15,16,17,3,8,9],
-"nodes":[{"func":"main","loop":false,"index":0,"rpid":7,"type":"exit"},{"func":"main","loop":false,"index":1,"rpid":18,"type":"entry"},{"func":"main","loop":false,"index":2,"rpid":12,"type":""},{"func":"main","loop":false,"index":3,"rpid":11,"type":""},{"func":"main","loop":false,"index":4,"rpid":10,"type":""},{"func":"main","loop":true,"index":5,"rpid":9,"type":""},{"func":"main","loop":false,"index":6,"rpid":6,"type":""},{"func":"main","loop":false,"index":7,"rpid":8,"type":""},{"func":"main","loop":false,"index":8,"rpid":5,"type":""},{"func":"main","loop":false,"index":9,"rpid":4,"type":""},{"func":"main","loop":false,"index":10,"rpid":3,"type":""},{"func":"main","loop":false,"index":11,"rpid":0,"type":""},{"func":"main","loop":false,"index":12,"rpid":2,"type":""},{"func":"main","loop":false,"index":13,"rpid":1,"type":""},{"func":"main","loop":false,"index":14,"rpid":17,"type":""},{"func":"main","loop":false,"index":15,"rpid":16,"type":""},{"func":"main","loop":false,"index":16,"rpid":15,"type":""},{"func":"main","loop":false,"index":17,"rpid":14,"type":""},{"func":"main","loop":false,"index":18,"rpid":13,"type":""}],
-"edges":[{"file":"#none#","line":0,"source":1,"type":"BlankEdge","stmt":"INIT GLOBAL VARS","target":14},{"file":"input\/code2.c","line":11,"source":10,"type":"AssumeEdge","stmt":"[x <= 1]","target":12},{"file":"input\/code2.c","line":3,"source":15,"type":"DeclarationEdge","stmt":"int x = 0;","target":16},{"file":"input\/code2.c","line":5,"source":17,"type":"DeclarationEdge","stmt":"void main();","target":18},{"file":"input\/code2.c","line":7,"source":2,"type":"StatementEdge","stmt":"x = __VERIFIER_nondet_int();","target":3},{"file":"input\/code2.c","line":8,"source":3,"type":"StatementEdge","stmt":"y = 1;","target":4},{"file":"input\/code2.c","line":11,"source":10,"type":"AssumeEdge","stmt":"[!(x <= 1)]","target":11},{"file":"input\/code2.c","line":12,"source":12,"type":"StatementEdge","stmt":"y = 0;","target":13},{"file":"input\/code2.c","line":9,"source":4,"type":"BlankEdge","stmt":"while","target":5},{"file":"input\/code2.c","line":9,"source":5,"type":"AssumeEdge","stmt":"[x > 0]","target":6},{"file":"input\/code2.c","line":10,"source":6,"type":"DeclarationEdge","stmt":"int __CPAchecker_TMP_0 = x;","target":8},{"file":"input\/code2.c","line":9,"source":5,"type":"AssumeEdge","stmt":"[!(x > 0)]","target":7},{"file":"input\/code2.c","line":10,"source":8,"type":"StatementEdge","stmt":"x = x - 1;","target":9},{"file":"#none#","line":0,"source":11,"type":"BlankEdge","stmt":"","target":5},{"file":"#none#","line":0,"source":7,"type":"BlankEdge","stmt":"default return","target":0},{"file":"input\/code2.c","line":10,"source":9,"type":"StatementEdge","stmt":"__CPAchecker_TMP_0;","target":10},{"file":"#none#","line":0,"source":13,"type":"BlankEdge","stmt":"","target":11},{"file":"#none#","line":0,"source":18,"type":"BlankEdge","stmt":"Function start dummy edge","target":2},{"file":"input\/code2.c","line":1,"source":14,"type":"DeclarationEdge","stmt":"int __VERIFIER_nondet_int();","target":15},{"file":"input\/code2.c","line":3,"source":16,"type":"DeclarationEdge","stmt":"int y = 0;","target":17}]
+"combinedNodes":{"2":[3,4,5]},
+"combinedNodesLabels":{"2":"2 int x;\n3 int y;\n4 x = __VERIFIER_nondet_int();\n5 y = __VERIFIER_nondet_int();"},
+"mergedNodes":[3,4,5],
+"nodes":[{"func":"main","loop":false,"index":0,"rpid":2,"type":"exit"},{"func":"main","loop":false,"index":1,"rpid":12,"type":"entry"},{"func":"main","loop":false,"index":2,"rpid":9,"type":""},{"func":"main","loop":false,"index":3,"rpid":8,"type":""},{"func":"main","loop":false,"index":4,"rpid":7,"type":""},{"func":"main","loop":false,"index":5,"rpid":6,"type":""},{"func":"main","loop":false,"index":6,"rpid":5,"type":""},{"func":"main","loop":true,"index":7,"rpid":4,"type":""},{"func":"main","loop":false,"index":8,"rpid":1,"type":""},{"func":"main","loop":false,"index":9,"rpid":3,"type":""},{"func":"main","loop":false,"index":10,"rpid":0,"type":""},{"func":"main","loop":false,"index":11,"rpid":11,"type":""},{"func":"main","loop":false,"index":12,"rpid":10,"type":""}],
+"edges":[{"file":"input\/code2.c","line":6,"source":8,"type":"StatementEdge","stmt":"x = x - y;","target":10},{"file":"#none#","line":0,"source":1,"type":"BlankEdge","stmt":"INIT GLOBAL VARS","target":11},{"file":"input\/code2.c","line":2,"source":2,"type":"DeclarationEdge","stmt":"int x;","target":3},{"file":"input\/code2.c","line":2,"source":3,"type":"DeclarationEdge","stmt":"int y;","target":4},{"file":"input\/code2.c","line":3,"source":4,"type":"StatementEdge","stmt":"x = __VERIFIER_nondet_int();","target":5},{"file":"input\/code2.c","line":4,"source":5,"type":"StatementEdge","stmt":"y = __VERIFIER_nondet_int();","target":6},{"file":"input\/code2.c","line":5,"source":7,"type":"AssumeEdge","stmt":"[!(x > 0)]","target":9},{"file":"#none#","line":0,"source":12,"type":"BlankEdge","stmt":"Function start dummy edge","target":2},{"file":"input\/code2.c","line":5,"source":6,"type":"BlankEdge","stmt":"while","target":7},{"file":"input\/code2.c","line":5,"source":7,"type":"AssumeEdge","stmt":"[x > 0]","target":8},{"file":"#none#","line":0,"source":10,"type":"BlankEdge","stmt":"","target":7},{"file":"input\/code2.c","line":1,"source":11,"type":"DeclarationEdge","stmt":"void main();","target":12},{"file":"#none#","line":0,"source":9,"type":"BlankEdge","stmt":"default return","target":0}]
 }
 window.cfaJson = cfaJson;
 var argJson = {}
@@ -54,7 +54,7 @@ window.sourceFiles = sourceFiles;
         Report for
 input/code2.c      </h1>
       <span class="badge badge-info generated">
-Generated on 2023-11-26 10:35:38 by CPAchecker (unknown version) / generateLoopAbstractions      </span>
+Generated on 2023-11-26 12:40:02 by CPAchecker (unknown version) / generateLoopAbstractions      </span>
     </header>
 
     <div
@@ -586,21 +586,14 @@ Generated on 2023-11-26 10:35:38 by CPAchecker (unknown version) / generateLoopA
           </div>
 <div id="source-file" class="sourceContent" ng-show = "sourceFileIsSet(0)">
 <table>
-<tr id="source-1"><td><pre>1</pre></td><td><pre class="prettyprint">extern int __VERIFIER_nondet_int();  </pre></td></tr>
-<tr id="source-2"><td><pre>2</pre></td><td><pre class="prettyprint">  </pre></td></tr>
-<tr id="source-3"><td><pre>3</pre></td><td><pre class="prettyprint">int x,y;  </pre></td></tr>
-<tr id="source-4"><td><pre>4</pre></td><td><pre class="prettyprint">	  </pre></td></tr>
-<tr id="source-5"><td><pre>5</pre></td><td><pre class="prettyprint">void main()  </pre></td></tr>
-<tr id="source-6"><td><pre>6</pre></td><td><pre class="prettyprint">{  </pre></td></tr>
-<tr id="source-7"><td><pre>7</pre></td><td><pre class="prettyprint">    x = __VERIFIER_nondet_int();  </pre></td></tr>
-<tr id="source-8"><td><pre>8</pre></td><td><pre class="prettyprint">    y = 1;  </pre></td></tr>
-<tr id="source-9"><td><pre>9</pre></td><td><pre class="prettyprint">    while (x&gt;0) {  </pre></td></tr>
-<tr id="source-10"><td><pre>10</pre></td><td><pre class="prettyprint">      x--;  </pre></td></tr>
-<tr id="source-11"><td><pre>11</pre></td><td><pre class="prettyprint">      if (x &lt;= 1) {  </pre></td></tr>
-<tr id="source-12"><td><pre>12</pre></td><td><pre class="prettyprint">        y =0;  </pre></td></tr>
-<tr id="source-13"><td><pre>13</pre></td><td><pre class="prettyprint">      }  </pre></td></tr>
-<tr id="source-14"><td><pre>14</pre></td><td><pre class="prettyprint">    }  </pre></td></tr>
-<tr id="source-15"><td><pre>15</pre></td><td><pre class="prettyprint">}  </pre></td></tr>
+<tr id="source-1"><td><pre>1</pre></td><td><pre class="prettyprint">void main(){  </pre></td></tr>
+<tr id="source-2"><td><pre>2</pre></td><td><pre class="prettyprint">    int x,y;  </pre></td></tr>
+<tr id="source-3"><td><pre>3</pre></td><td><pre class="prettyprint">    x = __VERIFIER_nondet_int();  </pre></td></tr>
+<tr id="source-4"><td><pre>4</pre></td><td><pre class="prettyprint">    y = __VERIFIER_nondet_int();  </pre></td></tr>
+<tr id="source-5"><td><pre>5</pre></td><td><pre class="prettyprint">    while(x&gt;0){  </pre></td></tr>
+<tr id="source-6"><td><pre>6</pre></td><td><pre class="prettyprint">        x = x-y;  </pre></td></tr>
+<tr id="source-7"><td><pre>7</pre></td><td><pre class="prettyprint">    }  </pre></td></tr>
+<tr id="source-8"><td><pre>8</pre></td><td><pre class="prettyprint">}  </pre></td></tr>
 </table></div>
         </div>
         <div
@@ -609,11 +602,12 @@ Generated on 2023-11-26 10:35:38 by CPAchecker (unknown version) / generateLoopA
           ng-class="{active: tabIsSet(4)}"
         >
 <table  id="log_table" class="display" style="width:100%;padding: 10px" class="table table-bordered"><thead class="thead-light"><tr><th scope="col">Date</th><th scope="col">Time</th><th scope="col">Level</th><th scope="col">Component</th><th scope="col">Message</th></tr></thead><tbody>
-<tr id="log-0"><th scope="row">2023-11-26</th><td>10:35:37:119</td><td>INFO</td><td>CPAMain.detectFrontendLanguageIfNecessary</td><td>Language C detected and set for analysis</td></tr>
-<tr id="log-1"><th scope="row">2023-11-26</th><td>10:35:37:171</td><td>INFO</td><td>CPAchecker.run</td><td>CPAchecker (unknown version) / generateLoopAbstractions (OpenJDK 64-Bit Server VM 11.0.20.1) started</td></tr>
-<tr id="log-2"><th scope="row">2023-11-26</th><td>10:35:37:197</td><td>INFO</td><td>CPAchecker.parse</td><td>Parsing CFA from file(s) &quot;input/code2.c&quot;</td></tr>
-<tr id="log-3"><th scope="row">2023-11-26</th><td>10:35:37:934</td><td>INFO</td><td>CPAchecker.runAlgorithm</td><td>Starting analysis ...</td></tr>
-<tr id="log-4"><th scope="row">2023-11-26</th><td>10:35:38:018</td><td>INFO</td><td>CPAchecker.runAlgorithm</td><td>Stopping analysis ...</td></tr>
+<tr id="log-0"><th scope="row">2023-11-26</th><td>12:40:00:284</td><td>INFO</td><td>CPAMain.detectFrontendLanguageIfNecessary</td><td>Language C detected and set for analysis</td></tr>
+<tr id="log-1"><th scope="row">2023-11-26</th><td>12:40:00:360</td><td>INFO</td><td>CPAchecker.run</td><td>CPAchecker (unknown version) / generateLoopAbstractions (OpenJDK 64-Bit Server VM 11.0.20.1) started</td></tr>
+<tr id="log-2"><th scope="row">2023-11-26</th><td>12:40:00:399</td><td>INFO</td><td>CPAchecker.parse</td><td>Parsing CFA from file(s) &quot;input/code2.c&quot;</td></tr>
+<tr id="log-3"><th scope="row">2023-11-26</th><td>12:40:01:198</td><td>WARNING</td><td>CheckBindingVisitor.visit</td><td>Undefined function __VERIFIER_nondet_int found, first called in line 3</td></tr>
+<tr id="log-4"><th scope="row">2023-11-26</th><td>12:40:01:558</td><td>INFO</td><td>CPAchecker.runAlgorithm</td><td>Starting analysis ...</td></tr>
+<tr id="log-5"><th scope="row">2023-11-26</th><td>12:40:01:682</td><td>INFO</td><td>CPAchecker.runAlgorithm</td><td>Stopping analysis ...</td></tr>
 </tbody></table>
         </div>
         <div
@@ -622,13 +616,13 @@ Generated on 2023-11-26 10:35:38 by CPAchecker (unknown version) / generateLoopA
           ng-class="{active: tabIsSet(5)}"
         >
 <table  id="statistics_table" class="display" style="width:100%;padding: 10px" class="table table-bordered"><thead class="thead-light"><tr><th scope="col">Statistics Name</th><th scope="col">Statistics Value</th scope="col"><th>Additional Value</th></tr></thead><tbody>
-<tr class="table_head" id="statistics-1"><th>CPAchecker general statistics</th><th></th><th></th></tr><tr id="statistics-3"><td>Number of program locations</td><td>                       19</td><td></td></tr>
-<tr id="statistics-5"><td>Number of CFA edges (per node)</td><td>                          20 </td><td>count: 19, min: 0, max: 2, avg: 1.05</td></tr>
-<tr id="statistics-7"><td>Number of relevant variables</td><td>                      1</td><td></td></tr>
+<tr class="table_head" id="statistics-1"><th>CPAchecker general statistics</th><th></th><th></th></tr><tr id="statistics-3"><td>Number of program locations</td><td>                       13</td><td></td></tr>
+<tr id="statistics-5"><td>Number of CFA edges (per node)</td><td>                          13 </td><td>count: 13, min: 0, max: 2, avg: 1.00</td></tr>
+<tr id="statistics-7"><td>Number of relevant variables</td><td>                      2</td><td></td></tr>
 <tr id="statistics-9"><td>Number of functions</td><td>                               1</td><td></td></tr>
-<tr id="statistics-11"><td>Number of loops (and loop nodes)</td><td>                         1 </td><td>sum: 8, min: 8, max: 8, avg: 8.00</td></tr>
+<tr id="statistics-11"><td>Number of loops (and loop nodes)</td><td>                         1 </td><td>sum: 3, min: 3, max: 3, avg: 3.00</td></tr>
 <tr id="statistics-13"><td>Size of reached set</td><td>             1</td><td></td></tr>
-<tr id="statistics-15"><td>	  Number of reached locations</td><td>   1 </td><td>5%</td></tr>
+<tr id="statistics-15"><td>	  Number of reached locations</td><td>   1 </td><td>8%</td></tr>
 <tr id="statistics-17"><td>		    Avg states per location</td><td>     1</td><td></td></tr>
 <tr id="statistics-19"><td>		    Max states per location</td><td>     1 </td><td>at node N1</td></tr>
 <tr id="statistics-21"><td>	  Number of reached functions</td><td>   1 </td><td>100%</td></tr>
@@ -637,48 +631,48 @@ Generated on 2023-11-26 10:35:38 by CPAchecker (unknown version) / generateLoopA
 <tr id="statistics-27"><td>		    Max size of partitions</td><td>      1</td><td></td></tr>
 <tr id="statistics-29"><td>	  Number of target states</td><td>       0</td><td></td></tr>
 <tr id="statistics-31"><td>	  Size of final wait list</td><td>       1</td><td></td></tr>
-<tr id="statistics-34"><td>Time for analysis setup</td><td>          0.737s</td><td></td></tr>
-<tr id="statistics-36"><td>	  Time for loading CPAs</td><td>          0.038s</td><td></td></tr>
-<tr id="statistics-38"><td>	  Time for loading parser</td><td>        0.181s</td><td></td></tr>
-<tr id="statistics-40"><td>	  Time for CFA construction</td><td>      0.494s</td><td></td></tr>
-<tr id="statistics-42"><td>		    Time for parsing file(s)</td><td>     0.271s</td><td></td></tr>
-<tr id="statistics-44"><td>		    Time for AST to CFA</td><td>          0.089s</td><td></td></tr>
-<tr id="statistics-46"><td>		    Time for CFA sanity check</td><td>    0.021s</td><td></td></tr>
-<tr id="statistics-48"><td>		    Time for post-processing</td><td>     0.083s</td><td></td></tr>
-<tr id="statistics-50"><td>		    Time for CFA export</td><td>          0.197s</td><td></td></tr>
-<tr id="statistics-52"><td>			      Time for function pointers resolving</td><td>            0.003s</td><td></td></tr>
+<tr id="statistics-34"><td>Time for analysis setup</td><td>          1.159s</td><td></td></tr>
+<tr id="statistics-36"><td>	  Time for loading CPAs</td><td>          0.067s</td><td></td></tr>
+<tr id="statistics-38"><td>	  Time for loading parser</td><td>        0.218s</td><td></td></tr>
+<tr id="statistics-40"><td>	  Time for CFA construction</td><td>      0.833s</td><td></td></tr>
+<tr id="statistics-42"><td>		    Time for parsing file(s)</td><td>     0.411s</td><td></td></tr>
+<tr id="statistics-44"><td>		    Time for AST to CFA</td><td>          0.164s</td><td></td></tr>
+<tr id="statistics-46"><td>		    Time for CFA sanity check</td><td>    0.042s</td><td></td></tr>
+<tr id="statistics-48"><td>		    Time for post-processing</td><td>     0.172s</td><td></td></tr>
+<tr id="statistics-50"><td>		    Time for CFA export</td><td>          0.355s</td><td></td></tr>
+<tr id="statistics-52"><td>			      Time for function pointers resolving</td><td>            0.008s</td><td></td></tr>
 <tr id="statistics-54"><td>				        Function calls via function pointers</td><td>             0 </td><td>count: 1, min: 0, max: 0, avg: 0.00</td></tr>
 <tr id="statistics-56"><td>				        Instrumented function pointer calls</td><td>              0 </td><td>count: 1, min: 0, max: 0, avg: 0.00</td></tr>
 <tr id="statistics-58"><td>				        Function calls with function pointer arguments</td><td>        0 </td><td>count: 1, min: 0, max: 0, avg: 0.00</td></tr>
 <tr id="statistics-60"><td>				        Instrumented function pointer arguments</td><td>          0 </td><td>count: 1, min: 0, max: 0, avg: 0.00</td></tr>
 <tr id="statistics-62"><td>CFA summaries statistics</td><td></td><td></td></tr>
 <tr id="statistics-64"><td>		    Used Strategies on the CFA</td><td></td><td></td></tr>
-<tr id="statistics-66"><td>				        NAIVELOOPACCELERATION         </td><td> 0</td><td></td></tr>
-<tr id="statistics-68"><td>				        LOOPCONSTANTEXTRAPOLATION     </td><td> 0</td><td></td></tr>
+<tr id="statistics-66"><td>				        LOOPUNROLLING                 </td><td> 0</td><td></td></tr>
+<tr id="statistics-68"><td>				        NAIVELOOPACCELERATION         </td><td> 0</td><td></td></tr>
 <tr id="statistics-70"><td>				        HAVOCSTRATEGY                 </td><td> 0</td><td></td></tr>
-<tr id="statistics-72"><td>				        LOOPUNROLLING                 </td><td> 0</td><td></td></tr>
-<tr id="statistics-74"><td>				        NONDETBOUNDCONSTANTEXTRAPOLATION</td><td> 0</td><td></td></tr>
+<tr id="statistics-72"><td>				        NONDETBOUNDCONSTANTEXTRAPOLATION</td><td> 0</td><td></td></tr>
+<tr id="statistics-74"><td>				        LOOPCONSTANTEXTRAPOLATION     </td><td> 0</td><td></td></tr>
 <tr id="statistics-76"><td>		    Distinct Nodes with Strategies</td><td> -100</td><td></td></tr>
 <tr id="statistics-78"><td>		    Total strategies used         </td><td> 0</td><td></td></tr>
-<tr id="statistics-80"><td>			      Time for classifying variables</td><td>                  0.040s</td><td></td></tr>
-<tr id="statistics-82"><td>				        Time for collecting variables</td><td>                 0.011s</td><td></td></tr>
+<tr id="statistics-80"><td>			      Time for classifying variables</td><td>                  0.084s</td><td></td></tr>
+<tr id="statistics-82"><td>				        Time for collecting variables</td><td>                 0.020s</td><td></td></tr>
 <tr id="statistics-84"><td>				        Time for solving dependencies</td><td>                 0.001s</td><td></td></tr>
 <tr id="statistics-86"><td>				        Time for building hierarchy</td><td>                   0.000s</td><td></td></tr>
-<tr id="statistics-88"><td>				        Time for building classification</td><td>              0.026s</td><td></td></tr>
+<tr id="statistics-88"><td>				        Time for building classification</td><td>              0.061s</td><td></td></tr>
 <tr id="statistics-90"><td>				        Time for exporting data</td><td>                       0.002s</td><td></td></tr>
-<tr id="statistics-92"><td>Time for Analysis</td><td>                0.084s</td><td></td></tr>
-<tr id="statistics-94"><td>CPU time for analysis</td><td>            0.290s</td><td></td></tr>
-<tr id="statistics-96"><td>Total time for CPAchecker</td><td>        0.832s</td><td></td></tr>
-<tr id="statistics-98"><td>Total CPU time for CPAchecker</td><td>    2.760s</td><td></td></tr>
-<tr id="statistics-100"><td>Time for statistics</td><td>              0.067s</td><td></td></tr>
-<tr id="statistics-103"><td>Time for Garbage Collector</td><td>       0.014s </td><td>in 2 runs</td></tr>
+<tr id="statistics-92"><td>Time for Analysis</td><td>                0.121s</td><td></td></tr>
+<tr id="statistics-94"><td>CPU time for analysis</td><td>            0.400s</td><td></td></tr>
+<tr id="statistics-96"><td>Total time for CPAchecker</td><td>        1.297s</td><td></td></tr>
+<tr id="statistics-98"><td>Total CPU time for CPAchecker</td><td>    3.720s</td><td></td></tr>
+<tr id="statistics-100"><td>Time for statistics</td><td>              0.145s</td><td></td></tr>
+<tr id="statistics-103"><td>Time for Garbage Collector</td><td>       0.018s </td><td>in 2 runs</td></tr>
 <tr id="statistics-105"><td>Garbage Collector(s) used</td><td>    G1 Old Generation, G1 Young Generation</td><td></td></tr>
-<tr id="statistics-107"><td>Used heap memory</td><td>                 49MB (    47 MiB) max;     29MB (    28 MiB) avg;     53MB (    51 MiB) peak</td><td></td></tr>
-<tr id="statistics-109"><td>Used non-heap memory</td><td>             25MB (    24 MiB) max;     18MB (    17 MiB) avg;     28MB (    26 MiB) peak</td><td></td></tr>
-<tr id="statistics-111"><td>Used in G1 Old Gen pool</td><td>           7MB (     7 MiB) max;      5MB (     5 MiB) avg;      7MB (     7 MiB) peak</td><td></td></tr>
+<tr id="statistics-107"><td>Used heap memory</td><td>                 48MB (    46 MiB) max;     30MB (    28 MiB) avg;     53MB (    51 MiB) peak</td><td></td></tr>
+<tr id="statistics-109"><td>Used non-heap memory</td><td>             25MB (    24 MiB) max;     18MB (    17 MiB) avg;     28MB (    27 MiB) peak</td><td></td></tr>
+<tr id="statistics-111"><td>Used in G1 Old Gen pool</td><td>           7MB (     7 MiB) max;      6MB (     5 MiB) avg;      7MB (     7 MiB) peak</td><td></td></tr>
 <tr id="statistics-113"><td>Allocated heap memory</td><td>           528MB (   504 MiB) max;    528MB (   503 MiB) avg</td><td></td></tr>
 <tr id="statistics-115"><td>Allocated non-heap memory</td><td>        29MB (    28 MiB) max;     22MB (    21 MiB) avg</td><td></td></tr>
-<tr id="statistics-117"><td>Total process virtual memory</td><td>   4794MB (  4572 MiB) max;   4667MB (  4451 MiB) avg</td><td></td></tr>
+<tr id="statistics-117"><td>Total process virtual memory</td><td>   4661MB (  4445 MiB) max;   4611MB (  4397 MiB) avg</td><td></td></tr>
 </tbody></table>
         </div>
         <div

@@ -1,0 +1,13 @@
+#0
+output/code/code.c:9: error: Dead Store
+  The value written to &y (type int) is never used.
+   7. 	x = __VERIFIER_nondet_int();
+   8. 	transx(x);
+   9. 	y = __VERIFIER_nondet_int();
+       ^
+  10. 	transx(x);
+  11. 	// START HAVOCSTRATEGY;
+
+Found 1 issue
+  Issue Type(ISSUED_TYPE_ID): #
+      Dead Store(DEAD_STORE): 1

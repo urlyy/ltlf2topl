@@ -1,2 +1,2 @@
 property:
-  origin: G(x>0=>F(y==0))
+  origin: G(x>0)

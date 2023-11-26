@@ -1,14 +1,14 @@
 CPA_CHECKER_DIR="/home/urlyy/桌面/cpachecker"
 output_dir="output/LA"
 input_dir="input"
-filename="code2"
+filename="code2.c"
 if [ -d "$output_dir" ]; then  
     echo "目录存在，开始删除..."S
     # 删除目录  
     rm -rf "$output_dir"
 fi
 
-$CPA_CHECKER_DIR/scripts/cpa.sh -generateLoopAbstractions $input_dir/$filename.c
+$CPA_CHECKER_DIR/scripts/cpa.sh -generateLoopAbstractions $input_dir/$filename
   
 # 判断文件个数是否大于0  
 if [ -d "$output_dir" ]; then  
@@ -26,7 +26,7 @@ if [ -d "$output_dir" ]; then
             new_filepath="$input_dir/$new_filename"
             # 移动并重命名文件
             cp "$file" "$new_filepath"
-            echo "已将文件 $file 重命名为 $new_filename 并移动到 $output_dir"
+            echo "已将文件 $file 重命名为 $new_filename 并移动到 $new_filepath"
         fi
     done
 else  S

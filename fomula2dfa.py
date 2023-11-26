@@ -20,7 +20,7 @@ def get_params(params:str,all_params:list):
     return res 
 
 def generate_trans_name(base_trans,params:List[Tuple])->str:
-    return base_trans +"_"+ '_'.join(params)
+    return base_trans +''.join(params)
 def is_subset(l1:list,l2:list):
     flag = True
     for i in l1:
@@ -39,12 +39,13 @@ def dfa2topl(graph:List[Edge],trans_functions: List[List],property:dict,infer_co
     # 类型没用了，去掉
     trans_funcs = [[param[1] for param in func] for func in trans_functions]
     relavant_variables = property['infer']['variables']
+    prefix_blank = " "*2
     topl = "property Main"
     for edge in graph:
         if edge.fro == 'start':
-            topl += f"\n\tstart -> q{edge.to}: {infer_config['start']}(IgnoreRet)"
+            topl += f"\n{prefix_blank}start -> q{edge.to}: {infer_config['start']}(IgnoreRet)"
         elif edge.to == 'error':
-            topl += f"\n\tq{edge.fro} -> error: {infer_config['error']}(IgnoreRet)"
+            topl += f"\n{prefix_blank}q{edge.fro} -> error: {infer_config['error']}(IgnoreRet)"
         else:
             # 然后改大写
             # 校验是否可以包含
@@ -55,7 +56,9 @@ def dfa2topl(graph:List[Edge],trans_functions: List[List],property:dict,infer_co
                     if edge.val != 'true':
                         trans_suffix += f" when {edge.val}"
                     trans_func = generate_trans_name( infer_config['trans'],func) +  replace_upper(trans_suffix,func)
-                    topl += f'\n\tq{edge.fro} -> q{edge.to}: {trans_func}'
+                    topl += f'\n{prefix_blank}q{edge.fro} -> q{edge.to}: {trans_func}'
+    # 不知道为什么最后必须一行空行
+    topl += "\n"
     return topl
 
 def simplify(f:str)->str:

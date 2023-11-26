@@ -1,13 +1,13 @@
 
 CPAchecker general statistics
 -----------------------------
-Number of program locations:                       19
-Number of CFA edges (per node):                          20 (count: 19, min: 0, max: 2, avg: 1.05)
-Number of relevant variables:                      1
+Number of program locations:                       13
+Number of CFA edges (per node):                          13 (count: 13, min: 0, max: 2, avg: 1.00)
+Number of relevant variables:                      2
 Number of functions:                               1
-Number of loops (and loop nodes):                         1 (sum: 8, min: 8, max: 8, avg: 8.00)
+Number of loops (and loop nodes):                         1 (sum: 3, min: 3, max: 3, avg: 3.00)
 Size of reached set:             1
-  Number of reached locations:   1 (5%)
+  Number of reached locations:   1 (8%)
     Avg states per location:     1
     Max states per location:     1 (at node N1)
   Number of reached functions:   1 (100%)
@@ -17,49 +17,49 @@ Size of reached set:             1
   Number of target states:       0
   Size of final wait list:       1
 
-Time for analysis setup:          0.737s
-  Time for loading CPAs:          0.038s
-  Time for loading parser:        0.181s
-  Time for CFA construction:      0.494s
-    Time for parsing file(s):     0.271s
-    Time for AST to CFA:          0.089s
-    Time for CFA sanity check:    0.021s
-    Time for post-processing:     0.083s
-    Time for CFA export:          0.197s
-      Time for function pointers resolving:            0.003s
+Time for analysis setup:          1.159s
+  Time for loading CPAs:          0.067s
+  Time for loading parser:        0.218s
+  Time for CFA construction:      0.833s
+    Time for parsing file(s):     0.411s
+    Time for AST to CFA:          0.164s
+    Time for CFA sanity check:    0.042s
+    Time for post-processing:     0.172s
+    Time for CFA export:          0.355s
+      Time for function pointers resolving:            0.008s
         Function calls via function pointers:             0 (count: 1, min: 0, max: 0, avg: 0.00)
         Instrumented function pointer calls:              0 (count: 1, min: 0, max: 0, avg: 0.00)
         Function calls with function pointer arguments:        0 (count: 1, min: 0, max: 0, avg: 0.00)
         Instrumented function pointer arguments:          0 (count: 1, min: 0, max: 0, avg: 0.00)
 CFA summaries statistics:
     Used Strategies on the CFA:
-        NAIVELOOPACCELERATION         : 0
-        LOOPCONSTANTEXTRAPOLATION     : 0
-        HAVOCSTRATEGY                 : 0
         LOOPUNROLLING                 : 0
+        NAIVELOOPACCELERATION         : 0
+        HAVOCSTRATEGY                 : 0
         NONDETBOUNDCONSTANTEXTRAPOLATION: 0
+        LOOPCONSTANTEXTRAPOLATION     : 0
     Distinct Nodes with Strategies: -100
     Total strategies used         : 0
-      Time for classifying variables:                  0.040s
-        Time for collecting variables:                 0.011s
+      Time for classifying variables:                  0.084s
+        Time for collecting variables:                 0.020s
         Time for solving dependencies:                 0.001s
         Time for building hierarchy:                   0.000s
-        Time for building classification:              0.026s
+        Time for building classification:              0.061s
         Time for exporting data:                       0.002s
-Time for Analysis:                0.084s
-CPU time for analysis:            0.290s
-Total time for CPAchecker:        0.832s
-Total CPU time for CPAchecker:    2.760s
-Time for statistics:              0.067s
+Time for Analysis:                0.121s
+CPU time for analysis:            0.400s
+Total time for CPAchecker:        1.297s
+Total CPU time for CPAchecker:    3.720s
+Time for statistics:              0.145s
 
-Time for Garbage Collector:       0.014s (in 2 runs)
+Time for Garbage Collector:       0.018s (in 2 runs)
 Garbage Collector(s) used:    G1 Old Generation, G1 Young Generation
-Used heap memory:                 49MB (    47 MiB) max;     29MB (    28 MiB) avg;     53MB (    51 MiB) peak
-Used non-heap memory:             25MB (    24 MiB) max;     18MB (    17 MiB) avg;     28MB (    26 MiB) peak
-Used in G1 Old Gen pool:           7MB (     7 MiB) max;      5MB (     5 MiB) avg;      7MB (     7 MiB) peak
+Used heap memory:                 48MB (    46 MiB) max;     30MB (    28 MiB) avg;     53MB (    51 MiB) peak
+Used non-heap memory:             25MB (    24 MiB) max;     18MB (    17 MiB) avg;     28MB (    27 MiB) peak
+Used in G1 Old Gen pool:           7MB (     7 MiB) max;      6MB (     5 MiB) avg;      7MB (     7 MiB) peak
 Allocated heap memory:           528MB (   504 MiB) max;    528MB (   503 MiB) avg
 Allocated non-heap memory:        29MB (    28 MiB) max;     22MB (    21 MiB) avg
-Total process virtual memory:   4794MB (  4572 MiB) max;   4667MB (  4451 MiB) avg
+Total process virtual memory:   4661MB (  4445 MiB) max;   4611MB (  4397 MiB) avg
 
 Finished.
 More details about the verification run can be found in the directory "./output".

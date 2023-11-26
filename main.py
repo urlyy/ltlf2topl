@@ -7,7 +7,7 @@ if __name__ == '__main__':
     code_path = "input/new_code.c"
     property_path = "property/p.yaml"
     config_path = "config.yaml"
-    output_property_path = "property/output/p.yaml"
+    output_property_path = "output/property/test.yaml"
     output_code_path ="output/code/code.c"
     output_topl_path ="output/topl/test.topl"
     with open(code_path, 'r') as f:

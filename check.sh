@@ -1,5 +1,4 @@
-input_dir="mytest/infer/1"
-filename="main_output_infer.c"
-toplname="test.topl"
+input="$(pwd)/output/code/code.c"
+topl="$(pwd)/output/topl/test.topl"
 
-infer --topl --topl-properties  $input_dir/$toplname -- gcc -c $input_dir/$filename
+infer --topl --topl-properties  $input_dir/$topl -- gcc -c $input
