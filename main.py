@@ -1,20 +1,29 @@
 import yaml
 from fomula2dfa import dfa2topl
 from infer_trans import Transformer
-
+from property2yml import prehandle
 
 if __name__ == '__main__':
-    with open('input/code.c', 'r') as f:
+    code_path = "input/new_code.c"
+    property_path = "property/p.yaml"
+    config_path = "config.yaml"
+    output_property_path = "property/output/p.yaml"
+    output_code_path ="output/code/code.c"
+    output_topl_path ="output/topl/test.topl"
+    with open(code_path, 'r') as f:
         code = f.read()
-    with open("config.yaml", 'r') as f:
+    with open(config_path, 'r') as f:
         # 使用 PyYAML 加载 YAML 文件内容
         infer_config = yaml.safe_load(f)['infer']
-    with open("property.yaml", 'r') as f:
+    # 转property
+    prehandle(property_path,output_property_path)
+    with open(output_property_path, 'r') as f:
         # 使用 PyYAML 加载 YAML 文件内容
         property = yaml.safe_load(f)['property']
     t = Transformer(code,property,infer_config)
     names = t.function_names
-    name = names[1]
-    t.trans(name)
+    name = names[0]
+    t.trans(name,output_code_path)
     topl = dfa2topl(t.dfa,t.trans_functions,property,infer_config)
-    print(topl)
+    with open(output_topl_path,"w") as f:
+        f.write(topl)

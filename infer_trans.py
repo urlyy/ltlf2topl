@@ -19,7 +19,7 @@ class Transformer:
         # [[(int,a),(float,b)],[(float,b)]]
         self.trans_functions:List[List[Tuple[str,str]]] = list()
         self.param2type = dict()
-        self.dfa = formula2dfa()
+        self.dfa = formula2dfa(property)
         # 处理一下dfa，获得各trans函数的params
         self.dfa_trans_params:List[List] = []
         for e in self.dfa:
@@ -99,9 +99,9 @@ class Transformer:
     
     
     def true_params(self)->list:
+        init_done_vars = self.param2type.keys()
         for p in self.dfa_trans_params:
             flag = True
-            init_done_vars = self.param2type.keys()
             for element in p:
                 # 有变量未初始化
                 if element not in init_done_vars:
@@ -117,7 +117,7 @@ class Transformer:
     
     def generate_trans_declaration(self,params:List[Tuple])->str:
         func_name = self.generate_trans_name(params)
-        return f"void {func_name}({','.join([name for typ,name in params])}){{}}"
+        return f"void {func_name}({','.join([f'{typ} {name}' for typ,name in params])}){{}}"
     
     def insert_infer_declarations(self):
         new_code = "void "+self.start_func+"(){}\nvoid "+self.error_func+"(){}\n"
@@ -181,11 +181,11 @@ class Transformer:
         new_code = self._insert_trans_terminate(body)
         self.update(body,new_code)
         
-    def trans(self,func_name="main"):
+    def trans(self,func_name="main",outpath_path="output/code.c"):
         self.insert_trans_terminate(func_name)
         self.insert_infer_declarations()
         self.insert_begin(func_name)
-        self.output("output/code.c")
+        self.output(outpath_path)
         
     
         

@@ -1,8 +1,15 @@
-int main() {  
-    int i=0;  
-    int res = 0;
-    for(int i=0;i<10;i++){
-        res += i;
+extern int __VERIFIER_nondet_int();
+
+int x,y;
+	
+void main()
+{
+    x = __VERIFIER_nondet_int();
+    y = 1;
+    while (x>0) {
+      x--;
+      if (x <= 1) {
+        y =0;
+      }
     }
-    return 0;  
 }

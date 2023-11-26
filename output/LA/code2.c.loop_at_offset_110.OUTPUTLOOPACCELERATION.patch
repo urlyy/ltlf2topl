@@ -1,0 +1,22 @@
+extern int __VERIFIER_nondet_int();
+
+int x,y;
+	
+void main()
+{
+    x = __VERIFIER_nondet_int();
+    y = 1;
+    // START OUTPUTLOOPACCELERATION
+    for (long long __VERIFIER_LA_OA_counter = 0; __VERIFIER_LA_OA_counter < 2 && x > (0) ; __VERIFIER_LA_OA_counter++) {
+    x = __VERIFIER_nondet_int();
+    if (!(x > (0))) abort();
+    if (x>0) {
+          x--;
+          if (x <= 1) {
+            y =0;
+          }
+        }
+    }
+    if (x > (0)) abort();
+    // END OUTPUTLOOPACCELERATION
+}

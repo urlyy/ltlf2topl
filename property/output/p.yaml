@@ -1,0 +1,10 @@
+property:
+  infer:
+    fomula: G(p_1_p=>F(p_0_p))
+    map:
+      p_0_p: y==0
+      p_1_p: x>0
+    variables:
+    - y
+    - x
+  origin: G(x>0=>F(y==0))

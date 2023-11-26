@@ -103,9 +103,8 @@ def handle_dfa(dfa:dict,_map:dict):
         graph.append(Edge(t,"error",None))
     return graph
 
-def formula2dfa(property_path='property.yaml')->list:
+def formula2dfa(property)->list:
     # 获得公式
-    property = yaml.safe_load(open(property_path, 'r'))['property']
     s = property['infer']['fomula']
     # 替换原来的库函数，换为自己的实现
     change()

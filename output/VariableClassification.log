@@ -1,0 +1,32 @@
+IntBool
+
+[]
+
+IntEq
+
+[y]
+
+IntAdd
+
+[main::__CPAchecker_TMP_0, x]
+
+IntOverflow
+
+[main::__CPAchecker_TMP_0, x]
+
+ALL
+
+[main::__CPAchecker_TMP_0, x, y]
+
+DEPENDENCIES
+
+[[main::__CPAchecker_TMP_0, x] --> [0, 1],
+[y] --> [0, 1]]
+
+RELEVANT VARS
+
+[x]
+
+RELEVANT FIELDS
+
+{}
