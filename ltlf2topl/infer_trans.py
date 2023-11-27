@@ -19,6 +19,8 @@ class Transformer:
         # [[(int,a),(float,b)],[(float,b)]]
         self.trans_functions:List[List[Tuple[str,str]]] = list()
         self.param2type = dict()
+        # 记录_insert_trans_terminate()是否insert了terminate语句，避免无return导致的无terminate
+        self.terminated = False
         self.init_variables = set()
         self.dfa = formula2dfa(property)
         # 处理一下dfa，获得各trans函数的params
@@ -134,7 +136,8 @@ class Transformer:
                 if c.find(";") == -1:
                     c += ";"
                 if child.type == NodeName.RETURN_STATEMENT.value:
-                    tmp_code += f"\tterminate();\n"
+                    tmp_code += f"\t{self.error_func}();\n"
+                    self.terminated = True
                 tmp_code += f"\t{c}\n"
                 if child.type == NodeName.COMMENT.value:
                     continue
@@ -180,10 +183,14 @@ class Transformer:
                 tmp_code += self._insert_trans_terminate(child.child_by_field_name('consequence'))
         return "{\n" + tmp_code +"\t}\n"
     def insert_trans_terminate(self,name):
+        self.terminated = False
         self.param2type = dict()
         self.trans_functions = list()
         body = self._find_function_body_by_name(name)
         new_code = self._insert_trans_terminate(body)
+        if not self.terminated:
+            new_code = new_code.rstrip()[:-1]
+            new_code +=self.error_func+"();}\n"
         self.update(body,new_code)
         
     def trans(self,func_name="main",outpath_path="output/code.c"):
@@ -191,9 +198,3 @@ class Transformer:
         self.insert_infer_declarations()
         self.insert_begin(func_name)
         self.output(outpath_path)
-        
-    
-        
-        
-
-

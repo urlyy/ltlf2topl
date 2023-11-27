@@ -5,6 +5,5 @@ int main(){
             res = i+j;
         }
     }
-    int tmp = 10;
     return 0;
 }

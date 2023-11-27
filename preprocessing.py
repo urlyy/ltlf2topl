@@ -47,16 +47,16 @@ def process(input_path,output_path):
                 for_body = child.named_children[-1]
                 tmp_code += "\t" + parser.code(init) +"\n"
                 tmp_code += "\t"+"while("+parser.code(condition)+")"
-                tmp_code += _process(for_body) +"\n"
-                tmp_code += parser.code(update) +";\n"
+                # 去掉末尾的花括号和换行符
+                tmp_code += _process(for_body).rstrip()[:-2]
+                tmp_code += "\t"+parser.code(update) +";\n\t}"
             else:
                 tmp_code += "\t"+parser.code(child) + "\n"
-        return "{\n" + tmp_code + "}"
+        return "{\n" + tmp_code + "\n}"
     
     new_code = _process(function_body)
     parser.update(function_body,new_code)
-    file_name = os.path.basename(output_path).split(".")[0]
-    with open(f"input/{file_name}.c",'w') as f:
+    with open(output_path,'w') as f:
         f.write(parser.code(parser.root))
         
 if __name__ == '__main__':

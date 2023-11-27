@@ -2,7 +2,7 @@ import os
 import yaml
 from ltlf2topl.fomula2dfa import dfa2topl
 from ltlf2topl.infer_trans import Transformer
-from ltlf2topl.property2yml import prehandle
+from ltlf2topl.fomula2yml import prehandle
 import subprocess
 import argparse
 
@@ -36,9 +36,13 @@ def main(code_path,property_path):
     topl = dfa2topl(t.dfa,t.trans_functions,property,infer_config)
     with open(output_topl_path,"w") as f:
         f.write(topl)
-    subprocess.run(f"infer --topl --topl-properties  {output_topl_path} -- gcc -c {output_code_path}".split())
-
-
+    res = subprocess.run(f"infer --topl --topl-properties  {output_topl_path} -- gcc -c {output_code_path}".split(), capture_output=True, text=True)
+    output = res.stdout
+    if output.find('reaches state error')!=-1:
+        print("找到反例")
+    else:
+        print("无反例")
+    
 if __name__ == '__main__':
     # 1. 定义命令行解析器对象
     parser = argparse.ArgumentParser(description='Demo of argparse')
@@ -49,5 +53,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     code_path = args.code
     property_path = args.property
-    # 4.运行
+    # 4.
     main(code_path,property_path)

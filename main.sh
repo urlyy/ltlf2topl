@@ -1,14 +1,19 @@
 # 接收的参数
 # 1.代码.c
 # 2.性质.yaml，具体格式看例子
-input_path="cpachecker_input/cpa.c"
-property="cpachecker_input/p.yml"
+input_path="cpachecker_input/3/main.c"
+property="cpachecker_input/3/p1.yml"
+echo "代码:$input_path,性质:$property"
 # 1. 先将代码预处理
 echo "===========1.开始将代码预处理==========="
 code_name=$(basename "$input_path")  
 # TODO后面记得改
-# output_path="input/$code_name"
-output_path="input/main.c"
+# output_path="tmp_input/$code_name"
+output_path="tmp_input/main.c"
+dir=$(dirname "$output_path") 
+if [ ! -d "$dir" ]; then
+    mkdir "$dir"
+fi
 python preprocessing.py -input $input_path -output $output_path
 echo "===========1.处理后代码存放在$output_path==========="
 # 2. 再使用cpachecker进行循环抽象
@@ -23,7 +28,8 @@ if [ -d "infer-out" ]; then
     # 删除目录  
     rm -rf "infer-out"
 fi
-$CPA_CHECKER_DIR/scripts/cpa.sh -generateLoopAbstractions $output_path
+# 循环抽象，不打印cpachecker的输出
+$CPA_CHECKER_DIR/scripts/cpa.sh -generateLoopAbstractions $output_path  >/dev/null
 # 判断文件个数是否大于0  
 if [ -d "$CPA_CHECKER_LA" ]; then  
     echo "===========2.循环抽象成功==========="
@@ -51,8 +57,9 @@ if [ -d "$CPA_CHECKER_LA" ]; then
     code_path="output/main_1.c"
     # 在if里即循环抽象成功，进行代码的生成->TOPL的生成->infer的校验
     python main.py -code $code_path -property $property
-else  S
+else 
     echo "失败"
 fi
-# 删除无用文件
+# 删除无用文件和目录
 rm -f *.o
+# rm -rf $dir

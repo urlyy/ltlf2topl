@@ -1,0 +1,3 @@
+property:
+  origin: F(sum<0)
+  # ok

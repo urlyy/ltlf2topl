@@ -15,14 +15,15 @@ def prehandle(property_path:str,output_path:str):
 
     ap_set = set()
     tmp = ""
+    fomula = "("+fomula+")"
     for idx,ch in enumerate(fomula):
         if ch == "(":
             tmp = ""
         elif ch == ")":
-            ap_set.add(tmp)
+            ap_set.add(tmp.strip())
         elif ch == "&" or ch == '|' or (ch=="=" and fomula[idx+1]==">") or (ch==">" and fomula[idx-1]=="="):
             if tmp != "":
-                ap_set.add(tmp)
+                ap_set.add(tmp.strip())
             tmp = ""
         else:
             tmp += ch
