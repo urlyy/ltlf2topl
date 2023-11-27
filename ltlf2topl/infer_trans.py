@@ -148,6 +148,7 @@ class Transformer:
                         if d.child_by_field_name('value'):
                             variable = self.code(d.child_by_field_name('declarator'))
                             self.param2type[variable] = type
+                            # 变量是性质关心的变量
                             if variable in self.relavant_variables:
                                 # 额外的set记录已初始化的变量
                                 self.init_variables.add(variable)
@@ -167,11 +168,13 @@ class Transformer:
                         variable = self.code(exp.child_by_field_name('left'))
                     elif exp.type == NodeName.UPDATE_EXPRESSION.value:
                         variable = self.code(exp.child_by_field_name('argument'))
-                    self.init_variables.add(variable)
-                    params = self.true_params()
-                    if params not in self.trans_functions:
-                        self.trans_functions.append(params) 
-                    tmp_code += f"\t{self.generate_trans_call(params)}\n"
+                    # 变量是性质关心的变量
+                    if variable in self.relavant_variables:
+                        self.init_variables.add(variable)
+                        params = self.true_params()
+                        if params not in self.trans_functions:
+                            self.trans_functions.append(params) 
+                        tmp_code += f"\t{self.generate_trans_call(params)}\n"
             else:
                 tmp_code += "\tif"+self.code(child.child_by_field_name("condition"))
                 tmp_code += self._insert_trans_terminate(child.child_by_field_name('consequence'))

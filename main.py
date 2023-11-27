@@ -8,11 +8,11 @@ import argparse
 
 def main(code_path,property_path):
     file_name = os.path.basename(code_path).split(".")[0]
+    # 配置topl里的三种辅助函数的名称
     config_path = "config.yaml"
-    cpachecker_output_path = "output"
-    output_property_path = f"{cpachecker_output_path}/property/{file_name}.yaml"
-    output_code_path =f"{cpachecker_output_path}/code/{file_name}.c"
-    output_topl_path =f"{cpachecker_output_path}/topl/{file_name}.topl"
+    output_property_path = f"output/property/{file_name}.yaml"
+    output_code_path =f"output/code/{file_name}.c"
+    output_topl_path =f"output/topl/{file_name}.topl"
     if not os.path.exists(os.path.dirname(output_property_path)):
         os.makedirs(os.path.dirname(output_property_path))
     if not os.path.exists(os.path.dirname(output_code_path)):  
@@ -49,7 +49,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     code_path = args.code
     property_path = args.property
-    # code_path = "input/new_code.c"
-    # property_path = "property/p.yaml"
-    print(code_path,property_path)
+    # 4.运行
     main(code_path,property_path)

@@ -39,7 +39,8 @@ def dfa2topl(graph:List[Edge],trans_functions: List[List],property:dict,infer_co
     trans_funcs = [[param[1] for param in func] for func in trans_functions]
     relavant_variables = property['infer']['variables']
     prefix_blank = " "*2
-    topl = "property Main"
+    topl = "//"+property['origin']
+    topl += "\nproperty Main"
     for edge in graph:
         if edge.fro == 'start':
             topl += f"\n{prefix_blank}start -> q{edge.to}: {infer_config['start']}(IgnoreRet)"

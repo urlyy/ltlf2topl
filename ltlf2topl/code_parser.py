@@ -9,6 +9,7 @@ class MyParser:
     # 配置
     Language.build_library(
       # so文件保存位置
+      # 其实就是编译这个c之后的so文件要找个地方存取
       'build/my-languages.so',
       # 下git clone的仓库
       [

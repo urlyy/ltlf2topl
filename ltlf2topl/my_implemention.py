@@ -1,7 +1,6 @@
 from ltlf2dfa.ltlf2dfa import get_value,ter2symb,simplify_guard
 from sympy import symbols
 import ltlf2dfa
-from ltlf2dfa.ltlf2dfa import parse_mona
 
 
 # 替换原先的parse过程，改为自己自定义的
