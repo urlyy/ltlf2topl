@@ -1,9 +1,8 @@
 int main(){
-    int res;
-    for(int i=0;i<10;i++){
-        for(int j=0;j<i;j++){
-            res = i+j;
-        }
+    int res=1;
+    int tmp=10;
+    for(int i=0;i<tmp;i++){
+        res += 10;
     }
     return 0;
 }

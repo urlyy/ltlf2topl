@@ -1,2 +1,2 @@
 property:
-  origin: G(res<0)
+  origin: tmp<0 => res>1

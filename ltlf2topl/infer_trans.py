@@ -140,7 +140,7 @@ class Transformer:
                     self.terminated = True
                 tmp_code += f"\t{c}\n"
                 if child.type == NodeName.COMMENT.value:
-                    continue
+                    tmp_code += "\n"
                 if child.type == NodeName.DECLARATION.value:
                     ds  = child.children_by_field_name('declarator')
                     type = self.code(child.child_by_field_name('type'))

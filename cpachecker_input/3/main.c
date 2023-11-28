@@ -1,8 +1,6 @@
-int main(){
-    int res=1;
-    int tmp=10;
-    for(int i=0;i<tmp;i++){
-        res += 10;
+void main(){
+    int sum=0;
+    for(int i=0;i<10;i++){
+        sum+=i;
     }
-    return 0;
 }

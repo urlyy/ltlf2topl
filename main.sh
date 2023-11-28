@@ -1,8 +1,8 @@
 # 接收的参数
 # 1.代码.c
 # 2.性质.yaml，具体格式看例子
-input_path="cpachecker_input/3/main.c"
-property="cpachecker_input/3/p1.yml"
+input_path="cpachecker_input/2/main.c"
+property="cpachecker_input/2/p1.yml"
 echo "代码:$input_path,性质:$property"
 # 1. 先将代码预处理
 echo "===========1.开始将代码预处理==========="
@@ -20,7 +20,7 @@ echo "===========1.处理后代码存放在$output_path==========="
 echo "===========2.调用cpachecker进行循环抽象==========="
 CPA_CHECKER_DIR="/home/urlyy/桌面/cpachecker"
 CPA_CHECKER_LA="output/LA"
-if [ -d "output" ]; then  
+if [ -d "output" ]; then
     # 删除目录  
     rm -rf "output"
 fi
@@ -52,14 +52,19 @@ if [ -d "$CPA_CHECKER_LA" ]; then
             count=$((count + 1))
         fi
     done
-    echo "===========3.开始生成中间代码和topl,并进行校验==========="
-    # TODO在这里之前整合所有的HAVOC抽象为一个文件
-    code_path="output/main_1.c"
-    # 在if里即循环抽象成功，进行代码的生成->TOPL的生成->infer的校验
-    python main.py -code $code_path -property $property
 else 
-    echo "失败"
+    echo "=====抽象失败===="
+    rm -rf output
+    mkdir output
+    mv $output_path output/$code_name
+    echo "已将文件 $output_path 移动到 output/$code_name"
 fi
+echo "===========3.开始生成中间代码和topl,并进行校验==========="
+# TODO在这里之前整合所有的HAVOC抽象为一个文件
+code_path="output/main_1.c"
+# 进行代码的生成->TOPL的生成->infer的校验
+python main.py -code $code_path -property $property
 # 删除无用文件和目录
 rm -f *.o
-# rm -rf $dir
+# 预处理后的c文件
+rm -rf $dir

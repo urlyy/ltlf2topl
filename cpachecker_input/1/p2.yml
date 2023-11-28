@@ -1,3 +1,2 @@
 property:
-  origin: F(sum<0)
-  # ok
+  origin: G(res<0)

@@ -49,7 +49,7 @@ def process(input_path,output_path):
                 tmp_code += "\t"+"while("+parser.code(condition)+")"
                 # 去掉末尾的花括号和换行符
                 tmp_code += _process(for_body).rstrip()[:-2]
-                tmp_code += "\t"+parser.code(update) +";\n\t}"
+                tmp_code += "\t"+parser.code(update) +";\n}\n"
             else:
                 tmp_code += "\t"+parser.code(child) + "\n"
         return "{\n" + tmp_code + "\n}"

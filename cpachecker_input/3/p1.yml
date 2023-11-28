@@ -1,2 +1,3 @@
 property:
-  origin: tmp>0 => res>1
+  origin: F(sum>0)
+  # ok
