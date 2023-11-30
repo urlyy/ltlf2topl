@@ -1,8 +1,8 @@
 # 接收的参数
 # 1.代码.c
 # 2.性质.yaml，具体格式看例子
-input_path="cpachecker_input/2/main.c"
-property="cpachecker_input/2/p1.yml"
+input_path="cpachecker_input/1/main.c"
+property="cpachecker_input/1/p1.yml"
 echo "代码:$input_path,性质:$property"
 # 1. 先将代码预处理
 echo "===========1.开始将代码预处理==========="
