@@ -8,10 +8,8 @@ from ltlf2topl.fomula2dfa import formula2dfa
 
 class Transformer:
             
-            
-    def __init__(self,code:str,property:dict,infer_config:dict):
-        self._parser = MyParser()
-        self._parser.set_code(code)
+    def __init__(self,parser:MyParser,property:dict,infer_config:dict,dfa):
+        self._parser = parser
         self.start_func = infer_config['start']
         self.trans_func = infer_config['trans']
         self.error_func = infer_config['error']
@@ -22,7 +20,7 @@ class Transformer:
         # 记录_insert_trans_terminate()是否insert了terminate语句，避免无return导致的无terminate
         self.terminated = False
         self.init_variables = set()
-        self.dfa = formula2dfa(property)
+        self.dfa = dfa
         # 处理一下dfa，获得各trans函数的params
         self.dfa_trans_params:List[List] = []
         for e in self.dfa:
@@ -41,55 +39,14 @@ class Transformer:
     def root(self):
         return self._parser.root
     
-    def query(self,text):
-        return self._parser.query(self.root,text)
-    
     def code(self,node):
         return self._parser.code(node)
     
     def update(self,replaced_node: Node,new_code: str):
         self._parser.update(replaced_node,new_code)
     
-    @property
-    def function_names(self):
-        query_function_name_text = f'''
-        (function_definition
-            declarator: (function_declarator
-                declarator: (identifier)@function_name
-            )
-        )
-        '''
-        function_name_nodes = self.query(query_function_name_text)
-        return [self.code(node) for node,_ in function_name_nodes]
-    
-    def _find_function_by_name(self,name)->Node:
-        query_function_name_text = f'''
-        (function_definition
-            declarator: (function_declarator
-                declarator: (identifier)@function_name)(#eq? @function_name "{name}")
-        )
-        '''
-        function_name_nodes = self.query(query_function_name_text)
-        if len(function_name_nodes) != 1:
-            return None
-        node = function_name_nodes[0][0]
-        return node.parent.parent
-    
-    def _find_function_body_by_name(self,name)->Node:
-        query_function_body_text = f'''
-        (function_definition
-            declarator: (function_declarator
-                declarator: (identifier)@function_name)(#eq? @function_name "{name}")
-                body: (compound_statement)@body
-        )
-        ''' 
-        res = self.query(query_function_body_text)
-        body = [item for item,alias in res if alias == 'body'][0]
-        return body
-        
-    
     def insert_begin(self,name):
-        body = self._find_function_body_by_name(name)
+        body = self._parser.find_function_body_by_name(name)
         new_code = "{\n\t"+self.start_func+"();"+self.code(body)[1:-1]+"\n}"
         self.update(body,new_code)
         
@@ -97,10 +54,12 @@ class Transformer:
         with open(path, 'w') as f:
             f.write(self.code(self.root))
     
+    # 统一生成trans名称
     def generate_trans_name(self,params:List[Tuple])->str:
         return self.trans_func + ''.join([f'{name}' for typ,name in params])
     
     
+    # 根据当前已初始化的参数，生成真正trans的参数列表
     def true_params(self)->list:
         for p in self.dfa_trans_params:
             flag = True
@@ -131,8 +90,11 @@ class Transformer:
     def _insert_trans_terminate(self,body_node:Node):
         tmp_code = ""
         for child in body_node.named_children:
+            c = self.code(child)
+            if child.type == NodeName.COMMENT.value:
+                tmp_code += f"\t{c}\n"
+                continue
             if child.type != NodeName.IF_STATEMENT.value:
-                c = self.code(child)
                 if c.find(";") == -1:
                     c += ";"
                 if child.type == NodeName.RETURN_STATEMENT.value:
@@ -182,19 +144,24 @@ class Transformer:
                 tmp_code += "\tif"+self.code(child.child_by_field_name("condition"))
                 tmp_code += self._insert_trans_terminate(child.child_by_field_name('consequence'))
         return "{\n" + tmp_code +"\t}\n"
+    
+    
+    
     def insert_trans_terminate(self,name):
         self.terminated = False
         self.param2type = dict()
         self.trans_functions = list()
-        body = self._find_function_body_by_name(name)
+        body = self._parser.find_function_body_by_name(name)
         new_code = self._insert_trans_terminate(body)
         if not self.terminated:
             new_code = new_code.rstrip()[:-1]
             new_code +=self.error_func+"();}\n"
         self.update(body,new_code)
-        
-    def trans(self,func_name="main",outpath_path="output/code.c"):
+    
+    
+    def trans(self,func_name,outpath_path=None):
         self.insert_trans_terminate(func_name)
+        
         self.insert_infer_declarations()
         self.insert_begin(func_name)
         self.output(outpath_path)

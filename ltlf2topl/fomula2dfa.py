@@ -1,8 +1,6 @@
 import re
 from typing import List, Tuple
 from ltlf2dfa.parser.ltlf import LTLfParser
-from ltlf2topl.my_implemention import change
-import yaml
 
 class Edge:
     def __init__(self,fro,to,val:str):
@@ -21,6 +19,7 @@ def get_params(params:str,all_params:list):
 
 def generate_trans_name(base_trans,params:List[Tuple])->str:
     return base_trans +''.join(params)
+
 def is_subset(l1:list,l2:list):
     flag = True
     for i in l1:
@@ -35,7 +34,7 @@ def replace_upper(s:str,params:List[str]):
             s = s.replace(p,p[0].upper()+p[1:])
     return s
 
-def dfa2topl(graph:List[Edge],trans_functions: List[List],property:dict,infer_config:dict)->str:
+def dfa2topl(graph:List[Edge],trans_functions: List[List],property:dict,infer_config:dict,output)->str:
     trans_funcs = [[param[1] for param in func] for func in trans_functions]
     relavant_variables = property['infer']['variables']
     prefix_blank = " "*2
@@ -59,7 +58,8 @@ def dfa2topl(graph:List[Edge],trans_functions: List[List],property:dict,infer_co
                     topl += f'\n{prefix_blank}q{edge.fro} -> q{edge.to}: {trans_func}'
     # 不知道为什么最后必须一行空行
     topl += "\n"
-    return topl
+    with open(output,"w") as f:
+        f.write(topl)
 
 def simplify(f:str)->str:
     if f.find("~") != -1:
@@ -106,11 +106,74 @@ def handle_dfa(dfa:dict,_map:dict):
         graph.append(Edge(t,"error",None))
     return graph
 
+
+
+
+
+
+
+
+from ltlf2dfa.ltlf2dfa import get_value,ter2symb,simplify_guard
+from sympy import symbols
+import ltlf2dfa
+
+
+# 替换原先的parse过程，改为自己自定义的
+# 只返回邻接表
+def __parse_mona(mona_output):
+    """Parse mona output and construct a dot."""
+    free_variables = get_value(
+        mona_output, r".*DFA for formula with free variables:[\s]*(.*?)\n.*", str
+    )
+    if "state" in free_variables:
+        free_variables = None
+    else:
+        free_variables = symbols(
+            " ".join(
+                x.strip().lower() for x in free_variables.split() if len(x.strip()) > 0
+            )
+        )
+    accepting_states = get_value(mona_output, r".*Accepting states:[\s]*(.*?)\n.*", str)
+    termiante = [
+        str(x.strip()) for x in accepting_states.split() if len(x.strip()) > 0
+    ]
+    dot_trans = dict()  # maps each couple (src, dst) to a list of guards
+    for line in mona_output.splitlines():
+        if line.startswith("State "):
+            orig_state = get_value(line, r".*State[\s]*(\d+):\s.*", int)
+            guard = get_value(line, r".*:[\s](.*?)[\s]->.*", str)
+            if free_variables:
+                guard = ter2symb(free_variables, guard)
+            else:
+                guard = ter2symb(free_variables, "X")
+            dest_state = get_value(line, r".*state[\s]*(\d+)[\s]*.*", int)
+            if orig_state:
+                if (orig_state, dest_state) in dot_trans.keys():
+                    dot_trans[(orig_state, dest_state)].append(guard)
+                else:
+                    dot_trans[(orig_state, dest_state)] = [guard]
+    # for c, guards in dot_trans.items():
+    #     simplified_guard = simplify_guard(guards)
+    #     dot += ' {} -> {} [label="{}"];\n'.format(
+    #         c[0], c[1], str(simplified_guard).lower()
+    #     )
+    for c, guards in dot_trans.items():
+        simplified_guard = simplify_guard(guards)
+        # print(simplified_guard)
+        # <class 'sympy.logic.boolalg.BooleanTrue'>
+        # print(type(simplified_guard))
+        dot_trans[c] = str(simplified_guard).lower()
+        # dot_trans[c] = simplified_guard
+    # return dot
+    return {"trans":dot_trans,"terminate":termiante,"begin":1,}
+
+
+# 暴露出去的
 def formula2dfa(property)->list:
     # 获得公式
     s = property['infer']['fomula']
-    # 替换原来的库函数，换为自己的实现
-    change()
+    # 替换原库中的parse过程，改为自己自定义的
+    ltlf2dfa.ltlf2dfa.parse_mona = __parse_mona
     parser = LTLfParser()
     formula = parser(s)
     dfa = formula.to_dfa()

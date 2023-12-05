@@ -1,5 +1,6 @@
 # https://tree-sitter.github.io/tree-sitter/playground
 # query教学 https://blog.csdn.net/qq_38808667/article/details/128172301
+import subprocess
 from typing import Any, Callable, List, Tuple
 from ltlf2topl.my_enum import NodeName
 from tree_sitter import Parser,Language,Node,Tree
@@ -26,6 +27,7 @@ class MyParser:
   # 设置要解析的代码
   def set_code(self,code:str):
     self._tree:Tree = self._parser.parse(code.encode('utf-8'))
+    return self
   
   
   # 返回语法树的root节点
@@ -143,3 +145,116 @@ class MyParser:
     # for node, alias in capture:
     #     print(alias,self.code(node))
     return capture
+  
+  @property
+  def function_names(self):
+      query_function_name_text = f'''
+      (function_definition
+          declarator: (function_declarator
+              declarator: (identifier)@function_name
+          )
+      )
+      '''
+      function_name_nodes = self.query(self.root,query_function_name_text)
+      return [self.code(node) for node,_ in function_name_nodes]
+  
+  def find_function_by_name(self,name)->Node:
+      query_function_name_text = f'''
+      (function_definition
+          declarator: (function_declarator
+              declarator: (identifier)@function_name)(#eq? @function_name "{name}")
+      )
+      '''
+      function_name_nodes = self.query(self.root,query_function_name_text)
+      if len(function_name_nodes) != 1:
+          return None
+      node = function_name_nodes[0][0]
+      return node.parent.parent
+  
+  def find_function_body_by_name(self,name)->Node:
+      query_function_body_text = f'''
+      (function_definition
+          declarator: (function_declarator
+              declarator: (identifier)@function_name)(#eq? @function_name "{name}")
+              body: (compound_statement)@body
+      )
+      ''' 
+      res = self.query(self.root,query_function_body_text)
+      body = [item for item,alias in res if alias == 'body'][0]
+      return body
+  
+  def for2while(self,func_name):
+    function_body = self.find_function_body_by_name(func_name)
+    def _process(body_node:Node):
+      tmp_code = ""
+      for child in body_node.named_children:
+          if child.type == NodeName.FOR.value:
+              init = child.child_by_field_name('initializer')
+              condition = child.child_by_field_name('condition')
+              update = child.child_by_field_name('update')
+              for_body = child.named_children[-1]
+              tmp_code += "\t" + self.code(init) +"\n"
+              tmp_code += "\t"+"while("+self.code(condition)+")"
+              # 去掉末尾的花括号和换行符
+              tmp_code += _process(for_body).rstrip()[:-2]
+              tmp_code += "\t"+self.code(update) +";\n}\n"
+          else:
+              tmp_code += "\t"+self.code(child) + "\n"
+      return "{\n" + tmp_code + "\n}"
+    new_code = _process(function_body)
+    self.update(function_body,new_code)
+    return self
+    
+  def havoc_abstraction(self,func_name):
+    func_body = self.find_function_body_by_name(func_name)
+    # TODO 记录确定的值(字面值)
+    # variable_value = dict()
+    def _abstract(body_node:Node,in_while:bool):
+        # modified_variables = set()
+        tmp_code = ""
+        for child in body_node.named_children:
+            if child.type == NodeName.WHILE.value:
+              tmp_code += "//===START_HAVOC===\n"
+              condition = child.child_by_field_name('condition')
+              tmp_code += "\tif" + self.code(condition)
+              while_body = child.child_by_field_name('body')
+              tmp_code += _abstract(while_body,True)
+              tmp_code += "//===ENDDD_HAVOC===\n"
+            else:
+              if in_while and child.type == NodeName.EXPRESSION_STATEMENT.value:
+                  tmp = child.children[0]
+                  if tmp.type == NodeName.UPDATE_EXPRESSION.value:
+                      variable = tmp.child_by_field_name('argument')
+                  elif tmp.type == NodeName.ASSIGNMENT_EXPRESSION.value:
+                      variable = tmp.child_by_field_name('left')
+                  if variable is not None:
+                      tmp_code += "\t"+self.code(variable) +"=nodet();\n"
+              else:
+                  tmp_code += "\t"+self.code(child) + "\n"
+        return "{\n" + tmp_code + "}\n"
+    
+    new_code = _abstract(func_body,False)
+    self.update(func_body,new_code)
+    return self
+  
+  
+  def format_code(self,path=None):
+    def _format(code:str)->str:
+      # 调用ClangFormat进行格式化
+      proc = subprocess.Popen(['clang-format'], stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+      formatted_code, error = proc.communicate(input=code)
+      if proc.returncode != 0:
+          raise Exception(f'ClangFormat error: {error}')
+      return formatted_code
+    
+    if path is None:
+      code = self.code(self.root)
+      new_code = _format(code)
+      return new_code
+    else:
+      with open(path, 'r') as f:
+        code = f.read()
+      new_code = _format(code)
+      with open(path, 'w') as f:
+        f.write(new_code)
+    

@@ -11,6 +11,7 @@ cpachecker 请使用 loopsummary 分支
 - 使用 yaml 作为中间数据的输出格式
 - 使用 ltlf2dfa 并基于 mona 将输入的 ltl 代码转换为 dfa
 - 通过本项目自己实现的字符串操作，结合 tree-sitter 解析的语法树，将 dfa 转为 topl
+- clang-format 进行 c 语言代码格式化
 
 # TreeSitter
 
@@ -27,6 +28,7 @@ cpachecker 请使用 loopsummary 分支
 
 ```shell
 apt install mona=1.4-18-1
+apt install clang-format
 pip install ltlf2dfa==1.0.2
 pip install tree-sitter==0.20.4
 pip install pyyaml==6.0.1
@@ -36,7 +38,7 @@ pip install pyyaml==6.0.1
 
 # 运行方法
 
-只要管 main.sh 就行
+只要管 ~~main.sh~~ `run.sh` 就行
 
 # Attention
 

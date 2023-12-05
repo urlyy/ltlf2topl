@@ -3,7 +3,7 @@ import re
 import yaml
 
 
-def prehandle(property_path:str,output_path:str):
+def process(property_path:str,output_path:str):
     with open(property_path, 'r') as file:
         # 使用 PyYAML 加载 YAML 文件内容
         data = yaml.safe_load(file)
@@ -45,4 +45,3 @@ def prehandle(property_path:str,output_path:str):
     infer['variables'] = list(tmp_variables)
     with open(output_path, 'w') as file:
         yaml.dump(data, file)
-
